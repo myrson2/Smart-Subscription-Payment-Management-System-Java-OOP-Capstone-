@@ -1,6 +1,3 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-
 import java.util.Scanner;
 import Users.Customer;
 import Users.Admin;
@@ -16,52 +13,46 @@ public class Main {
         System.out.println("==============================================");
         System.out.println("Login Form: \n");
 
-        System.out.println("|| 1 - Admin || 2 - Customer ||");
-        System.out.print("Select: ");
-        int select = scan.nextInt();
-        scan.nextLine();
-
+        // System User Login 
         int id;
-        String name, email, password;
+        String name,
+            email,
+            password;
 
-        switch(select){
-            case 1:
-                System.out.print("ID: ");
-                id = scan.nextInt();
-                scan.nextLine();
+        do{
+            System.out.println("User ID: ");
+            id = scan.nextInt();
+            scan.nextLine();
 
-                System.out.print("Name: ");
-                name = scan.nextLine();
+            System.out.println("Name: ");
+            name = scan.nextLine();
 
-                System.out.print("Email: ");
-                email = scan.nextLine();
+            System.out.println("Email: ");
+            email = scan.nextLine();
 
-                System.out.print("Password: ");
-                password = scan.nextLine();
+            System.out.println("Password: ");
+            password = scan.nextLine();
 
+            System.out.println("==============================================");
+            System.out.println("1 - Customer || 2 - Admin");
+
+            int choice = 0;
+            System.out.println("Enter Choice: ");
+            choice = scan.nextInt();
+            scan.nextLine();
+
+            if(choice == 1){
                 customer = new Customer(id, name, email, password, true);
-                break;
-
-            case 2:
-                System.out.print("ID: ");
-                id = scan.nextInt();
-                scan.nextLine();
-
-                System.out.print("Name: ");
-                name = scan.nextLine();
-
-                System.out.print("Email: ");
-                email = scan.nextLine();
-
-                System.out.print("Password: ");
-                password = scan.nextLine();
-
+            } else if (choice == 2){
                 admin = new Admin(id, name, email, password, true);
-                break;
-            default:
-                System.out.println("1 or 2 only.");
-                break;
-        }
-        scan.close();
+            }
+            scan.close();
+
+        } while (true);
+        
     }
+
+    // function for admin dashboard
+
+    // function for customer dashboard
 }
