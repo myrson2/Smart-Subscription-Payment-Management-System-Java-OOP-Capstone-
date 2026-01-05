@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import Users.Customer;
 import Users.Admin;
@@ -7,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try (Scanner scan = new Scanner(System.in)) {
             Customer customer = null;
-            Admin admin = null;
+            Admin admin;
             
             System.out.println("Smart Subscription & Payment Management System\n");
 
@@ -21,23 +22,23 @@ public class Main {
                 password;
 
             do{
-                System.out.println("User ID: ");
+                System.out.print("User ID: ");
                 id = scan.nextInt();
                 scan.nextLine();
 
-                System.out.println("Name: ");
+                System.out.print("Name: ");
                 name = scan.nextLine();
 
-                System.out.println("Email: ");
+                System.out.print("Email: ");
                 email = scan.nextLine();
 
-                System.out.println("Password: ");
+                System.out.print("Password: ");
                 password = scan.nextLine();
 
                 System.out.println("==============================================");
                 System.out.println("1 - Customer || 2 - Admin");
 
-                int choice = 0;
+                int choice;
                 System.out.println("Enter Choice: ");
                 choice = scan.nextInt();
                 scan.nextLine();
@@ -47,7 +48,52 @@ public class Main {
                         customer = new Customer(id, name, email, password, true);
                         break;
                     case 2:
-                        admin = new Admin(id, name, email, password, true);                        break;
+                        admin = new Admin(id, name, email, password, true);
+                        
+                        // Admin Dashboard 
+                        int adminSelect = 0;
+                        do{
+                            System.out.println("==============================================");
+                            System.out.println("Hello " + admin.getName() + "!. Welcome to Admin Dashboard.");
+                            System.out.println("==============================================\n");
+
+                            adminMenuDashboard();
+                            
+                            System.out.print("Enter your choice: ");
+                            adminSelect = scan.nextInt();
+                            scan.nextLine();
+
+                            String planName;
+                            double price;
+
+                            switch (adminSelect) {
+                                case 1: // Creating Subscription Plan
+                                    int durationInDays = 0;
+
+                                    System.out.print("Enter a Plan Name: ");
+                                    planName = scan.nextLine();
+                                    System.out.print("Enter Base Price: ");
+                                    price = scan.nextDouble();
+                                    scan.nextLine();
+
+                                    admin.createSubscriptionPlan(planName, price, durationInDays);
+
+                                    System.out.println("Subscription plans generated successfully!\n");
+                                    break;
+                                
+                                case 2:
+                                    System.out.println("Search Name: ");
+                                    String searchName = scan.nextLine();
+
+                                    admin.updateSubscriptionPlan(searchName);
+                                    
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                        } while (adminSelect != 0);
+                        break;
                     default:
                         break;
                 }
@@ -57,5 +103,11 @@ public class Main {
     }
 
     // function for admin dashboard
+    static void adminMenuDashboard(){
+        System.out.println("1 - Create Subscription Plan");
+        System.out.println("2 - Update Subscription Plan");
+        System.out.println("3 - View All Users");
+        System.out.println("0 - Log out");
+    }
     // function for customer dashboard
 }
