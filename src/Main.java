@@ -85,13 +85,25 @@ public class Main {
                                     System.out.println("Search Name: ");
                                     String searchName = scan.nextLine();
 
-                                    admin.updateSubscriptionPlan(searchName);
-                                    
+                                    if(admin.searchName(searchName)){
+                                        System.out.println("Update Name: ");
+                                        planName = scan.nextLine();
+                                        System.out.println("Update Price: ");
+                                        price = scan.nextDouble();
+                                        scan.nextLine();
+
+                                        admin.updateSubscriptionPlan(searchName, planName, price);
+                                    } else {
+                                        System.out.println("Name not found. Try Again.");
+                                    }
+                                
                                     break;
                             
                                 default:
                                     break;
                             }
+
+                            admin.displaySubs();
                         } while (adminSelect != 0);
                         break;
                     default:

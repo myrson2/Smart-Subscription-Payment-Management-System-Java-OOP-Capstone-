@@ -32,7 +32,7 @@ public abstract class Subscription{
     }
 
     abstract double calculateFinalPrice();
-    abstract void getPlanDetails();
+    public abstract void getPlanDetails();
 
     
 }

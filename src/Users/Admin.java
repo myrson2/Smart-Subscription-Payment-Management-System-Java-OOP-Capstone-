@@ -15,16 +15,34 @@ public class Admin extends User{
         allPlans.add(new StudentDiscountSubscription(planName, basePrice, 30));
     }
 
-    public void updateSubscriptionPlan(String searchName){
-        String newName;
-        double newPrice;
-        
+    public void updateSubscriptionPlan(String searchName, String newPlanName, double newPrice){
+       for(Subscription subs : allPlans){
+            if (subs.getPlanName().equalsIgnoreCase(searchName)) {
+                subs.setPlanName(newPlanName);
+                subs.setPrice(newPrice);
+                break;
+            }
+        }
+    }
+
+    public boolean searchName(String searchName){
+        boolean isfound = false;
         for(Subscription subs : allPlans){
-            subs.getPlanName().equalsIgnoreCase(searchName);
-            System.out.print("Enter plan name: ");
-            newName = scan.nextLine();
-            subs.setPlanName(searchName);
-            break;
+            if (subs.getPlanName().equalsIgnoreCase(searchName)) {
+                isfound = true;
+                break;
+            }
+        }
+
+        return isfound;
+    }
+
+    public void displaySubs(){
+        System.out.println("========== Monthly Plans ==========");
+        for(Subscription subs : allPlans){
+            if(subs instanceof MonthlySubscription){
+                subs.getPlanDetails();
+            }
         }
     }
 }
