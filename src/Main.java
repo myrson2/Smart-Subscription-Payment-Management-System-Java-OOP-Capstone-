@@ -21,6 +21,11 @@ public class Main {
                 email,
                 password;
 
+                // make a Random class for User id and transaction Id
+                // validation for password
+                // @ and other validation for emails
+                // study data exceptions(try-catch)
+
             do{
                 System.out.print("User ID: ");
                 id = scan.nextInt();
@@ -46,6 +51,10 @@ public class Main {
                 switch (choice) {
                     case 1:
                         customer = new Customer(id, name, email, password, true);
+
+                        System.out.println("==============================================");
+                        System.out.println("Hello " + customer.getName() + "!. Welcome to Customer Dashboard.");
+                        System.out.println("==============================================\n");
                         break;
                     case 2:
                         admin = new Admin(id, name, email, password, true);

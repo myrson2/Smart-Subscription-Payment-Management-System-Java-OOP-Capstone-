@@ -34,5 +34,8 @@ public abstract class Subscription{
     abstract double calculateFinalPrice();
     public abstract void getPlanDetails();
 
-    
+    public boolean isActive(){
+        return false;
+    }
+
 }
