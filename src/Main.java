@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import Users.Customer;
 import Users.Admin;
@@ -7,8 +8,10 @@ public class Main {
     
     public static void main(String[] args) {
         try (Scanner scan = new Scanner(System.in)) {
+            Random random = new Random();
+
             Customer customer = null;
-            Admin admin;
+            Admin admin = null;
             
             System.out.println("Smart Subscription & Payment Management System\n");
 
@@ -27,19 +30,29 @@ public class Main {
                 // study data exceptions(try-catch)
 
             do{
-                System.out.print("User ID: ");
-                id = scan.nextInt();
-                scan.nextLine();
+                id = userIdGenerator(random);
+                System.out.printf("User ID: %d\n", id);
+                
 
                 System.out.print("Name: ");
                 name = scan.nextLine();
 
                 System.out.print("Email: ");
                 email = scan.nextLine();
+                
+                if(!email.contains("@")){
+                    System.out.println("Should have @");
+                    break;
+                }
 
                 System.out.print("Password: ");
                 password = scan.nextLine();
 
+                if(password.length() < 8) {
+                    System.out.println("Must contain up to 8 characters");
+                    break;
+                }
+               
                 System.out.println("==============================================");
                 System.out.println("1 - Customer || 2 - Admin");
 
@@ -55,6 +68,7 @@ public class Main {
                         System.out.println("==============================================");
                         System.out.println("Hello " + customer.getName() + "!. Welcome to Customer Dashboard.");
                         System.out.println("==============================================\n");
+                        
                         break;
                     case 2:
                         admin = new Admin(id, name, email, password, true);
@@ -129,6 +143,12 @@ public class Main {
         System.out.println("2 - Update Subscription Plan");
         System.out.println("3 - View All Users");
         System.out.println("0 - Log out");
+    }
+
+    static int userIdGenerator(Random random){
+        int num = random.nextInt(99999);
+        
+        return num;
     }
     // function for customer dashboard
 }

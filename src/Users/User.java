@@ -34,6 +34,7 @@ public class User {
         return isActive;
     }
 
+    // public boolean login(){}
     /*
     Methods:
 
