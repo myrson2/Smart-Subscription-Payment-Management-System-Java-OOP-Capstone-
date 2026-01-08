@@ -33,7 +33,6 @@ public class Main {
                 id = userIdGenerator(random);
                 System.out.printf("User ID: %d\n", id);
                 
-
                 System.out.print("Name: ");
                 name = scan.nextLine();
 
@@ -63,11 +62,63 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        customer = new Customer(id, name, email, password, true);
+                        customer = new Customer(id, name, email, password, false);
 
                         System.out.println("==============================================");
                         System.out.println("Hello " + customer.getName() + "!. Welcome to Customer Dashboard.");
+                        System.out.println("Status: " + customer.isActive());
                         System.out.println("==============================================\n");
+
+                        int customerSelect = 0;
+                        do{
+                            System.out.println("1. View Profile");
+                            System.out.println("2. Update Profile");
+                            System.out.println("3. Subscribe a Plan");
+                            System.out.println("4. Transaction History");
+                            System.out.println("5. Cancel Subscription");
+                            System.out.println("0. Logout");
+
+                            System.out.println("\n> Select Option");
+                            customerSelect = scan.nextInt();
+                            scan.nextLine();
+
+                            switch (customerSelect) {
+                                // Displaying User Information
+                                case 1: 
+                                    customer.displayUserInfo();
+                                    break;
+
+                                // Updating User's Profile Information
+                                case 2:
+                                    System.out.print("Name: ");
+                                    String upd_name = scan.nextLine();
+
+                                    System.out.print("Email: ");
+                                    String upd_email = scan.nextLine();
+                                    
+                                    if(!upd_email.contains("@")){
+                                        System.out.println("Should have @");
+                                        break;
+                                    }
+
+                                    System.out.print("Password: ");
+                                    String upd_password = scan.nextLine();
+
+                                    if(upd_password.length() < 8) {
+                                        System.out.println("Must contain up to 8 characters");
+                                        break;
+                                    }
+
+                                    customer.updateProfile(upd_name, upd_email, upd_password);
+                                    break;
+                                
+                                case 3:
+                                    
+                                    break; 
+                                default:
+                                    break;
+                            }
+                        } while(customerSelect != 0);
                         
                         break;
                     case 2:
@@ -126,7 +177,6 @@ public class Main {
                                     break;
                             }
 
-                            admin.displaySubs();
                         } while (adminSelect != 0);
                         break;
                     default:

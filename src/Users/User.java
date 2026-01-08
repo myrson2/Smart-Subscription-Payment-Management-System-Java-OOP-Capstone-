@@ -19,29 +19,53 @@ public class User {
         return userId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    // public boolean login(){}
-    /*
-    Methods:
+    public String isActive() {
+        if(isActive == false){
+            return "No plans";
+        } 
 
-        login()
-        logout()
-        updateProfile()
-        displayUserInfo() 
-        
-        */
+        return "Active";
+    }
+
+    public void displayUserInfo(){
+        System.out.println("Name: " + getName());
+        System.out.println("Email: " + getEmail());
+        System.out.println("Status: " + isActive());
+    }
+
+    public void updateProfile(String name, String email, String password){
+        setName(name);
+        setEmail(email);
+        setPassword(password);
+
+        System.out.println("Update Successful.");
+    }
 }

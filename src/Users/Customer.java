@@ -12,4 +12,6 @@ public class Customer extends User{
         super(userId, name, email, password, isActive);
         this.activSubscription = null;
     }
+
+    
 }

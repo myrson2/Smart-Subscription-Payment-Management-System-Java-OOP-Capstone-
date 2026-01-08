@@ -36,13 +36,4 @@ public class Admin extends User{
 
         return isfound;
     }
-
-    public void displaySubs(){
-        System.out.println("========== Monthly Plans ==========");
-        for(Subscription subs : allPlans){
-            if(subs instanceof MonthlySubscription){
-                subs.getPlanDetails();
-            }
-        }
-    }
 }
