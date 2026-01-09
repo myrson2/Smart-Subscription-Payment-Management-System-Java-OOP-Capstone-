@@ -13,10 +13,9 @@ public class Main {
             Customer customer = null;
             Admin admin = null;
             
-            System.out.println("Smart Subscription & Payment Management System\n");
-
             System.out.println("==============================================");
-            System.out.println("Login Form: \n");
+            System.out.println("Smart Subscription & Payment Management System");
+            System.out.println("==============================================");
 
             // System User Login 
             int id;
@@ -24,12 +23,10 @@ public class Main {
                 email,
                 password;
 
-                // make a Random class for User id and transaction Id
-                // validation for password
-                // @ and other validation for emails
-                // study data exceptions(try-catch)
-
+            int isContinue = 0;
             do{
+                System.out.println("Login Form: \n");
+
                 id = userIdGenerator(random);
                 System.out.printf("User ID: %d\n", id);
                 
@@ -52,14 +49,23 @@ public class Main {
                     break;
                 }
                
+                System.out.println("");
+
+                // End System User Login
+
+                // User if Customer / Admin
                 System.out.println("==============================================");
                 System.out.println("1 - Customer || 2 - Admin");
 
-                int choice;
-                System.out.println("Enter Choice: ");
+                int choice; // choice if admin or customer
+                System.out.print("> Select: ");
                 choice = scan.nextInt();
+                scan.nextLine(); // input buffer
+
+                System.out.print("(Enter to Procede)");
                 scan.nextLine();
 
+                System.out.println(" ");
                 switch (choice) {
                     case 1:
                         customer = new Customer(id, name, email, password, false);
@@ -71,14 +77,9 @@ public class Main {
 
                         int customerSelect = 0;
                         do{
-                            System.out.println("1. View Profile");
-                            System.out.println("2. Update Profile");
-                            System.out.println("3. Subscribe a Plan");
-                            System.out.println("4. Transaction History");
-                            System.out.println("5. Cancel Subscription");
-                            System.out.println("0. Logout");
-
-                            System.out.println("\n> Select Option");
+                            customerMenuDashboard();
+                            
+                            System.out.print("\n> Select Option");
                             customerSelect = scan.nextInt();
                             scan.nextLine();
 
@@ -112,8 +113,20 @@ public class Main {
                                     customer.updateProfile(upd_name, upd_email, upd_password);
                                     break;
                                 
-                                case 3:
-                                    
+                                case 3: // Subscribing to a plan
+                                    if (admin != null && admin.allPlans != null && !admin.allPlans.isEmpty()) {
+                                        System.out.println("\nAvailable Subscription Plans:");
+                                        for (subscription.Subscription plan : admin.allPlans) {
+                                            plan.getPlanDetails();
+                                        }
+                                    } else {
+                                        System.out.println("No subscription plans available. Please contact admin.");
+                                    }
+
+                                    System.out.print("Enter Plan: ");
+                                    String plan = scan.nextLine();
+
+                                    System.out.print("Enter");
                                     break; 
                                 default:
                                     break;
@@ -128,20 +141,27 @@ public class Main {
                         int adminSelect = 0;
                         do{
                             System.out.println("==============================================");
-                            System.out.println("Hello " + admin.getName() + "!. Welcome to Admin Dashboard.");
-                            System.out.println("==============================================\n");
+                            System.out.println("Hello, Administrator! Welcome to Admin Dashboard.");
+                            System.out.println("==============================================");
 
                             adminMenuDashboard();
                             
-                            System.out.print("Enter your choice: ");
+                            System.out.print("\nEnter your choice: ");
                             adminSelect = scan.nextInt();
                             scan.nextLine();
+
+                            System.out.println(" ");
 
                             String planName;
                             double price;
 
                             switch (adminSelect) {
-                                case 1: // Creating Subscription Plan
+                                // Creating a Subscription Plan
+                                case 1:
+                                    System.out.println("==============================================");
+                                    System.out.println("Creating a Subscription Plan");
+                                    System.out.println("==============================================");
+
                                     int durationInDays = 0;
 
                                     System.out.print("Enter a Plan Name: ");
@@ -152,10 +172,15 @@ public class Main {
 
                                     admin.createSubscriptionPlan(planName, price, durationInDays);
 
-                                    System.out.println("Subscription plans generated successfully!\n");
+                                    System.out.println("\nNotification: Subscription plans generated successfully!\n");
                                     break;
                                 
+                                // Updating the Plan Subscription
                                 case 2:
+                                    System.out.println("==============================================");
+                                    System.out.println("Updating a Subscription Plan");
+                                    System.out.println("==============================================");
+
                                     System.out.println("Search Name: ");
                                     String searchName = scan.nextLine();
 
@@ -167,12 +192,22 @@ public class Main {
                                         scan.nextLine();
 
                                         admin.updateSubscriptionPlan(searchName, planName, price);
+
+                                        System.out.println("\nNotification: Subscription plans successfully updated!\n");
                                     } else {
                                         System.out.println("Name not found. Try Again.");
                                     }
                                 
                                     break;
-                            
+                                    
+                                // Viewing all Users
+                                case 3:
+                                    System.out.println("==============================================");
+                                    System.out.println("View All Users: ");
+                                    System.out.println("==============================================");
+                                    System.out.println("\nSorry not Implemented Yet......\n");
+                                    break;
+                                
                                 default:
                                     break;
                             }
@@ -182,13 +217,27 @@ public class Main {
                     default:
                         break;
                 }
-            } while (true);
+
+                // Continuing Validation 
+                boolean isTrue;
+                do{
+                    System.out.print("Do you want to continue? (1 - Yes or 2 - No) > ");
+                    isContinue = scan.nextInt();
+
+                    isTrue = isContinue > 2 || isContinue <= 0;
+                    if (isTrue) {
+                        System.out.println("1 and 2 only. Try Again.");
+                    }
+                }while(isTrue);
+                
+            } while (isContinue != 2);
         }    
     
     }
 
     // function for admin dashboard
     static void adminMenuDashboard(){
+        System.out.println("Options: ");
         System.out.println("1 - Create Subscription Plan");
         System.out.println("2 - Update Subscription Plan");
         System.out.println("3 - View All Users");
@@ -201,4 +250,14 @@ public class Main {
         return num;
     }
     // function for customer dashboard
+    static void customerMenuDashboard(){
+        System.out.println("Options: ");        
+        System.out.println("1. View Profile");
+        System.out.println("2. Update Profile");
+        System.out.println("3. Subscribe a Plan");
+        System.out.println("4. Transaction History");
+        System.out.println("5. Cancel Subscription");
+        System.out.println("0. Logout");
+
+    }
 }

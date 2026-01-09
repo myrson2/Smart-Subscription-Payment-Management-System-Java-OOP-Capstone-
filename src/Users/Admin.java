@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import subscription.*;
 
 public class Admin extends User{
-    ArrayList<Subscription> allPlans = new ArrayList<>();
+    public ArrayList<Subscription> allPlans = new ArrayList<>();
     public Admin(int userId, String name, String email, String password, boolean isActive){
         super(userId, name, email, password, isActive);
     }
