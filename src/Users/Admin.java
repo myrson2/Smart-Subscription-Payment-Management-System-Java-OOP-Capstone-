@@ -36,4 +36,29 @@ public class Admin extends User{
 
         return isfound;
     }
+
+    public void viewAllUsers(){
+
+    }
+
+    public void allSubscriptionPlans()
+    {
+        for (Subscription subscription : allPlans) {
+            if(subscription instanceof MonthlySubscription){
+                subscription.getPlanDetails();
+            }
+        }
+
+        for (Subscription subscription : allPlans) {
+            if(subscription instanceof YearlySubscription){
+                subscription.getPlanDetails();
+            }
+        }
+
+        for (Subscription subscription : allPlans) {
+            if(subscription instanceof StudentDiscountSubscription){
+                subscription.getPlanDetails();
+            }
+        }
+    }
 }

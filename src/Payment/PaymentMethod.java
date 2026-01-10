@@ -1,5 +1,6 @@
 package Payment;
 
-public class PaymentMethod {
-    
-}
+public interface PaymentMethod {
+    public double processPayment(double amount);
+    public void generateReceipt();
+} 

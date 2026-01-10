@@ -1,5 +1,5 @@
 package Payment;
 
-public class GCashPayment {
+public class GCashPayment implements PaymentMethod{
     
 }

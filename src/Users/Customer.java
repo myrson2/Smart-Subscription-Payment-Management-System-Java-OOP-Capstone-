@@ -5,13 +5,15 @@ import subscription.*;
 import transaction.*;
 
 public class Customer extends User{
-    Subscription activSubscription;
+    Subscription activeSubscription;
     ArrayList<Transaction> transactionHistory = new ArrayList<>();
 
     public Customer(int userId, String name, String email, String password, boolean isActive){
         super(userId, name, email, password, isActive);
-        this.activSubscription = null;
+        this.activeSubscription = null;
     }
 
-    
+    public void subscribePlan(String plan){
+        
+    }
 }

@@ -3,6 +3,9 @@ import java.util.Random;
 import java.util.Scanner;
 import Users.Customer;
 import Users.Admin;
+import Payment.CreditCardPayment;
+import Payment.GCashPayment;
+import Payment.PaymentMethod;
 
 public class Main {
     
@@ -12,6 +15,7 @@ public class Main {
 
             Customer customer = null;
             Admin admin = null;
+            PaymentMethod paymentMethod = null;
             
             System.out.println("==============================================");
             System.out.println("Smart Subscription & Payment Management System");
@@ -79,7 +83,7 @@ public class Main {
                         do{
                             customerMenuDashboard();
                             
-                            System.out.print("\n> Select Option");
+                            System.out.print("\nSelect > ");
                             customerSelect = scan.nextInt();
                             scan.nextLine();
 
@@ -114,19 +118,41 @@ public class Main {
                                     break;
                                 
                                 case 3: // Subscribing to a plan
-                                    if (admin != null && admin.allPlans != null && !admin.allPlans.isEmpty()) {
-                                        System.out.println("\nAvailable Subscription Plans:");
-                                        for (subscription.Subscription plan : admin.allPlans) {
-                                            plan.getPlanDetails();
-                                        }
-                                    } else {
-                                        System.out.println("No subscription plans available. Please contact admin.");
-                                    }
-
-                                    System.out.print("Enter Plan: ");
+                                    listOfSubscriptionPlans(admin);
+                                    
+                                    System.out.print("Enter Plan > ");
                                     String plan = scan.nextLine();
 
-                                    System.out.print("Enter");
+                                    // use searchname function in admin to check if the plan type in customer is in object
+                                    if(!admin.searchName(plan)){
+                                        System.out.println("Error.");
+                                    } 
+
+                                    System.out.println("Type > ");
+                                    String type = scan.nextLine();
+                                    
+                                    modeOfPayment();
+                                    System.out.println("> ");
+                                    int modeOfP = scan.nextInt();
+                                    scan.nextInt();
+                                    
+                                    // Draft 
+
+                                    System.out.println("Payment > ");
+                                    double payment = scan.nextInt();
+                                    scan.nextInt();
+                                    // Payment Methods
+                                    switch(modeOfP){
+                                        case 1: // G-cash payment
+                                            paymentMethod = new GCashPayment();
+                                            paymentMethod.processPayment(payment);
+                                            break;
+                                        case 2: // Credit Card payment
+                                            paymentMethod = new CreditCardPayment();
+                                            paymentMethod.processPayment(payment);
+                                            break;
+                                    }
+
                                     break; 
                                 default:
                                     break;
@@ -184,7 +210,7 @@ public class Main {
                                     System.out.println("Search Name: ");
                                     String searchName = scan.nextLine();
 
-                                    if(admin.searchName(searchName)){
+                                    if(admin.searchName(searchName)){ 
                                         System.out.println("Update Name: ");
                                         planName = scan.nextLine();
                                         System.out.println("Update Price: ");
@@ -223,6 +249,7 @@ public class Main {
                 do{
                     System.out.print("Do you want to continue? (1 - Yes or 2 - No) > ");
                     isContinue = scan.nextInt();
+                    scan.nextLine();
 
                     isTrue = isContinue > 2 || isContinue <= 0;
                     if (isTrue) {
@@ -258,6 +285,15 @@ public class Main {
         System.out.println("4. Transaction History");
         System.out.println("5. Cancel Subscription");
         System.out.println("0. Logout");
+    }
 
+    static void listOfSubscriptionPlans(Admin admin){
+        admin.allSubscriptionPlans();
+    }
+
+    static void modeOfPayment(){
+        System.out.println("Options: ");        
+        System.out.println("1. Gcash");
+        System.out.println("2. Credit Card");
     }
 }
