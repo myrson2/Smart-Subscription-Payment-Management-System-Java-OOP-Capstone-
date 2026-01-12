@@ -13,7 +13,7 @@ public class Customer extends User{
         this.activeSubscription = null;
     }
 
-    public void subscribePlan(String plan){
+    public Subscription subscribePlan(){
         
     }
 }

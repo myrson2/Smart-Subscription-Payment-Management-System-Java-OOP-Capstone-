@@ -37,6 +37,36 @@ public class Admin extends User{
         return isfound;
     }
 
+    public Subscription returnSubscriptionPlan(String planName, String subscriptionType){
+    switch(subscriptionType.toLowerCase()){
+        case "monthly":
+            for (Subscription subscription : allPlans) {
+                if(subscription instanceof MonthlySubscription &&
+                   planName.equalsIgnoreCase(subscription.getPlanName())){
+                    return subscription;
+                }
+            }
+            break;
+        case "yearly":
+            for (Subscription subscription : allPlans) {
+                if(subscription instanceof YearlySubscription &&
+                   planName.equalsIgnoreCase(subscription.getPlanName())){
+                    return subscription;
+                }
+            }
+            break;
+        case "student":
+            for (Subscription subscription : allPlans) {
+                if(subscription instanceof StudentDiscountSubscription &&
+                   planName.equalsIgnoreCase(subscription.getPlanName())){
+                    return subscription;
+                }
+            }
+            break;
+    }
+    return null;
+}
+
     public void viewAllUsers(){
 
     }

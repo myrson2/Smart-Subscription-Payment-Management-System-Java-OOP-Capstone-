@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
 import Users.Customer;
+import subscription.Subscription;
 import Users.Admin;
 import Payment.CreditCardPayment;
 import Payment.GCashPayment;
@@ -16,6 +18,7 @@ public class Main {
             Customer customer = null;
             Admin admin = null;
             PaymentMethod paymentMethod = null;
+            Subscription selectedPLan = null;
             
             System.out.println("==============================================");
             System.out.println("Smart Subscription & Payment Management System");
@@ -130,27 +133,31 @@ public class Main {
 
                                     System.out.println("Type > ");
                                     String type = scan.nextLine();
+
+                                    selectedPLan = admin.returnSubscriptionPlan(name, type);
+                                    // task: return the object subscription of the targeted plan name and type of subscription 
+
+                                    System.out.println(selectedPLan.getPrice());
                                     
                                     modeOfPayment();
                                     System.out.println("> ");
                                     int modeOfP = scan.nextInt();
                                     scan.nextInt();
-                                    
-                                    // Draft 
 
-                                    System.out.println("Payment > ");
-                                    double payment = scan.nextInt();
-                                    scan.nextInt();
+                                    
+                                    // System.out.println("Payment > ");
+                                    // double payment = scan.nextInt();
+                                    // scan.nextInt();
                                     // Payment Methods
                                     switch(modeOfP){
                                         case 1: // G-cash payment
-                                            paymentMethod = new GCashPayment();
-                                            paymentMethod.processPayment(payment);
-                                            break;
+                                            // paymentMethod = new GCashPayment();
+                                            // paymentMethod.processPayment(payment);
+                                            // break;
                                         case 2: // Credit Card payment
-                                            paymentMethod = new CreditCardPayment();
-                                            paymentMethod.processPayment(payment);
-                                            break;
+                                            // paymentMethod = new CreditCardPayment();
+                                            // paymentMethod.processPayment(payment);
+                                            // break;
                                     }
 
                                     break; 
