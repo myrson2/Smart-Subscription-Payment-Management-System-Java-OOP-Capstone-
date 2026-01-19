@@ -13,7 +13,26 @@ public class Customer extends User{
         this.activeSubscription = null;
     }
 
-    public Subscription subscribePlan(){
-        
+    public void addTransaction(Transaction transaction) {
+        transactionHistory.add(transaction);
+    }
+
+    public void viewTransactionHistory() {
+        if (transactionHistory.isEmpty()) {
+            System.out.println("No transactions found.");
+        } else {
+            System.out.println("Transaction History:");
+            for (Transaction t : transactionHistory) {
+                System.out.println(t);
+            }
+        }
+    }
+
+    public void setActiveSubscription(Subscription subscription) {
+        this.activeSubscription = subscription;
+    }
+
+    public Subscription getActiveSubscription() {
+        return activeSubscription;
     }
 }
