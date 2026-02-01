@@ -17,14 +17,14 @@ public class Main {
         try (Scanner scan = new Scanner(System.in)) {
             Random random = new Random();
 
-            Customer customer = null;
-            Admin admin = null;
-            PaymentMethod paymentMethod = null;
-            Subscription selectedPLan = null;
+            Customer customer;
+            Admin admin;
+            PaymentMethod paymentMethod;
+            Subscription Subscription;
             
-            System.out.println("==============================================");
-            System.out.println("Smart Subscription & Payment Management System");
-            System.out.println("==============================================");
+            System.out.println("======================================================");
+            System.out.println("=== Smart Subscription & Payment Management System ===");
+            System.out.println("======================================================");
 
             // System User Login 
             int id;
@@ -33,7 +33,9 @@ public class Main {
                 password;
 
             int isContinue = 0;
-            do{
+
+            do{ 
+                // User Input
                 System.out.println("Login Form: \n");
 
                 id = userIdGenerator(random);
@@ -63,11 +65,12 @@ public class Main {
                 // End System User Login
 
                 // User if Customer / Admin
-                System.out.println("==============================================");
-                System.out.println("1 - Customer || 2 - Admin");
+                System.out.println("============================================================");
+                System.out.println("=====       1-Customer        ====        2-Admin      =====");
+                System.out.println("============================================================\n");
 
                 int choice; // choice if admin or customer
-                System.out.print("> Select: ");
+                System.out.print("> ");
                 choice = scan.nextInt();
                 scan.nextLine(); // input buffer
 
@@ -124,47 +127,47 @@ public class Main {
 
                                 // Subscribing to a plan
                                 case 3:
-                                    listOfSubscriptionPlans(admin);
-                                    System.out.print("Enter Plan > ");
-                                    String plan = scan.nextLine();
-                                    if(!admin.searchName(plan)){
-                                        System.out.println("Error: Plan not found.");
-                                        break;
-                                    }
-                                    System.out.print("Type (monthly/yearly/student) > ");
-                                    String type = scan.nextLine();
-                                    selectedPLan = admin.returnSubscriptionPlan(plan, type);
-                                    if(selectedPLan == null) {
-                                        System.out.println("Error: Subscription type not found.");
-                                        break;
-                                    }
-                                    System.out.println("Plan price: PHP " + selectedPLan.getPrice());
-                                    modeOfPayment();
-                                    System.out.print("> ");
-                                    int modeOfP = scan.nextInt();
-                                    scan.nextLine();
-                                    double paidAmount = selectedPLan.getPrice();
-                                    String paymentType = "";
-                                    if(modeOfP == 1) {
-                                        paymentMethod = new GCashPayment();
-                                        paymentType = "GCash";
-                                    } else if(modeOfP == 2) {
-                                        paymentMethod = new CreditCardPayment();
-                                        paymentType = "Credit Card";
-                                    } else {
-                                        System.out.println("Invalid payment option.");
-                                        break;
-                                    }
-                                    paymentMethod.processPayment(paidAmount);
-                                    paymentMethod.generateReceipt();
-                                    // Record transaction
-                                    int transactionId = new Random().nextInt(1000000);
-                                    Transaction transaction = new Transaction(transactionId, paidAmount, java.time.LocalDateTime.now(), paymentType, selectedPLan.getPlanName());
-                                    customer.addTransaction(transaction);
-                                    customer.setActiveSubscription(selectedPLan);
-                                    // Notification
-                                    notification.NotificationService.sendNotification(customer.getEmail(), "Subscription to '" + selectedPLan.getPlanName() + "' successful. Amount: PHP " + paidAmount);
-                                    System.out.println("Subscription successful!");
+                                    // listOfSubscriptionPlans(admin);
+                                    // System.out.print("Enter Plan > ");
+                                    // String plan = scan.nextLine();
+                                    // if(!admin.searchName(plan)){
+                                    //     System.out.println("Error: Plan not found.");
+                                    //     break;
+                                    // }
+                                    // System.out.print("Type (monthly/yearly/student) > ");
+                                    // String type = scan.nextLine();
+                                    // selectedPLan = admin.returnSubscriptionPlan(plan, type);
+                                    // if(selectedPLan == null) {
+                                    //     System.out.println("Error: Subscription type not found.");
+                                    //     break;
+                                    // }
+                                    // System.out.println("Plan price: PHP " + selectedPLan.getPrice());
+                                    // modeOfPayment();
+                                    // System.out.print("> ");
+                                    // int modeOfP = scan.nextInt();
+                                    // scan.nextLine();
+                                    // double paidAmount = selectedPLan.getPrice();
+                                    // String paymentType = "";
+                                    // if(modeOfP == 1) {
+                                    //     paymentMethod = new GCashPayment();
+                                    //     paymentType = "GCash";
+                                    // } else if(modeOfP == 2) {
+                                    //     paymentMethod = new CreditCardPayment();
+                                    //     paymentType = "Credit Card";
+                                    // } else {
+                                    //     System.out.println("Invalid payment option.");
+                                    //     break;
+                                    // }
+                                    // paymentMethod.processPayment(paidAmount);
+                                    // paymentMethod.generateReceipt();
+                                    // // Record transaction
+                                    // int transactionId = new Random().nextInt(1000000);
+                                    // Transaction transaction = new Transaction(transactionId, paidAmount, java.time.LocalDateTime.now(), paymentType, selectedPLan.getPlanName());
+                                    // customer.addTransaction(transaction);
+                                    // customer.setActiveSubscription(selectedPLan);
+                                    // // Notification
+                                    // notification.NotificationService.sendNotification(customer.getEmail(), "Subscription to '" + selectedPLan.getPlanName() + "' successful. Amount: PHP " + paidAmount);
+                                    // System.out.println("Subscription successful!");
                                     break;
 
                                 // View Transaction History
@@ -191,9 +194,9 @@ public class Main {
                         // Admin Dashboard 
                         int adminSelect = 0;
                         do{
-                            System.out.println("==============================================");
-                            System.out.println("Hello, Administrator! Welcome to Admin Dashboard.");
-                            System.out.println("==============================================");
+                            System.out.println("=======================================================");
+                            System.out.println("== Hello, Administrator! Welcome to Admin Dashboard. ==");
+                            System.out.println("=======================================================");
 
                             adminMenuDashboard();
                             
@@ -210,7 +213,7 @@ public class Main {
                                 // Creating a Subscription Plan
                                 case 1:
                                     System.out.println("==============================================");
-                                    System.out.println("Creating a Subscription Plan");
+                                    System.out.println("==        Creating a Subscription Plan      ==");
                                     System.out.println("==============================================");
 
                                     int durationInDays = 0;
@@ -229,7 +232,7 @@ public class Main {
                                 // Updating the Plan Subscription
                                 case 2:
                                     System.out.println("==============================================");
-                                    System.out.println("Updating a Subscription Plan");
+                                    System.out.println("==        Update a Subscription Plan        ==");
                                     System.out.println("==============================================");
 
                                     System.out.println("Search Name: ");
@@ -253,14 +256,7 @@ public class Main {
                                     
                                 // Viewing all Users
                                 case 3:
-                                    System.out.println("==============================================");
-                                    System.out.println("View All Users: ");
-                                    System.out.println("==============================================");
-                                    // For demonstration, just show the current admin and customer
-                                    System.out.println("Admin: " + admin.getName() + " (" + admin.getEmail() + ")");
-                                    if(customer != null) {
-                                        System.out.println("Customer: " + customer.getName() + " (" + customer.getEmail() + ")");
-                                    }
+                                  System.out.println("Still Working...");
                                     break;
                                 
                                 default:
@@ -314,10 +310,6 @@ public class Main {
         System.out.println("4. Transaction History");
         System.out.println("5. Cancel Subscription");
         System.out.println("0. Logout");
-    }
-
-    static void listOfSubscriptionPlans(Admin admin){
-        admin.allSubscriptionPlans();
     }
 
     static void modeOfPayment(){

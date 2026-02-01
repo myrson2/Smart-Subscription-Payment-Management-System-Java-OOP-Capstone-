@@ -10,9 +10,9 @@ public class Admin extends User{
     }
 
     public void createSubscriptionPlan(String planName, double basePrice, int durationInDays){
-        allPlans.add(new MonthlySubscription(planName, basePrice, 30));
-        allPlans.add(new YearlySubscription(planName, basePrice, 365));
-        allPlans.add(new StudentDiscountSubscription(planName, basePrice, 30));
+        allPlans.add(new MonthlySubscription(planName, basePrice, durationInDays));
+        allPlans.add(new YearlySubscription(planName, basePrice, durationInDays));
+        allPlans.add(new StudentDiscountSubscription(planName, basePrice, durationInDays));
     }
 
     public void updateSubscriptionPlan(String searchName, String newPlanName, double newPrice){
@@ -20,7 +20,6 @@ public class Admin extends User{
             if (subs.getPlanName().equalsIgnoreCase(searchName)) {
                 subs.setPlanName(newPlanName);
                 subs.setPrice(newPrice);
-                break;
             }
         }
     }

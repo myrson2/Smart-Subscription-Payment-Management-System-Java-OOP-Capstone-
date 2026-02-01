@@ -2,7 +2,7 @@ package subscription;
 
 public class StudentDiscountSubscription extends Subscription{
     public StudentDiscountSubscription(String planName, double basePrice, int durationInDays){
-        super(planName, basePrice, durationInDays);
+        super(planName, basePrice, 30);
     }
 
     @Override
@@ -13,7 +13,9 @@ public class StudentDiscountSubscription extends Subscription{
 
     @Override
     public void getPlanDetails() {
-        System.out.println("========== Monthly Plans (Student Discount) ==========\n");
+        System.out.println("=====================================================");
+        System.out.println("==          Monthly Plans (Student Discount)       ==");
+        System.out.println("=====================================================\n");
 
         System.out.println("Name: " + super.getPlanName());
         System.out.println("Duration: " + super.getDurationInDays() + " days");
