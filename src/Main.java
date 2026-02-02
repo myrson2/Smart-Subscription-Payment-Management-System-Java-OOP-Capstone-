@@ -1,15 +1,9 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
 import Users.Customer;
 import subscription.Subscription;
 import Users.Admin;
 
-import Payment.CreditCardPayment;
-import Payment.GCashPayment;
-import Payment.PaymentMethod;
-import transaction.Transaction;
 
 public class Main {
     
@@ -18,9 +12,8 @@ public class Main {
             Random random = new Random();
 
             Customer customer;
+            Subscription subscriptions;
             Admin admin;
-            PaymentMethod paymentMethod;
-            Subscription Subscription;
             
             System.out.println("======================================================");
             System.out.println("=== Smart Subscription & Payment Management System ===");
@@ -216,15 +209,13 @@ public class Main {
                                     System.out.println("==        Creating a Subscription Plan      ==");
                                     System.out.println("==============================================");
 
-                                    int durationInDays = 0;
-
                                     System.out.print("Enter a Plan Name: ");
                                     planName = scan.nextLine();
                                     System.out.print("Enter Base Price: ");
                                     price = scan.nextDouble();
                                     scan.nextLine();
 
-                                    admin.createSubscriptionPlan(planName, price, durationInDays);
+                                    admin.createSubscriptionPlan(planName, price);
 
                                     System.out.println("\nNotification: Subscription plans generated successfully!\n");
                                     break;
@@ -238,25 +229,34 @@ public class Main {
                                     System.out.println("Search Name: ");
                                     String searchName = scan.nextLine();
 
-                                    if(admin.searchName(searchName)){ 
-                                        System.out.println("Update Name: ");
-                                        planName = scan.nextLine();
-                                        System.out.println("Update Price: ");
+                                    // *********** put this in notification **************
+                                    if(!admin.findName(searchName)) {
+                                        System.out.println("Didnt found! Try inputting again or adding plans.");
+                                        break;
+                                    } // *********** put this in notification **************
+
+                                        System.out.print("Update Name: ");
+                                        planName = scan.nextLine(); 
+
+                                        System.out.print("Update Price: ");
                                         price = scan.nextDouble();
                                         scan.nextLine();
-
-                                        admin.updateSubscriptionPlan(searchName, planName, price);
+                                        
+                                        // *********** put this in notification **************
+                                        if(!admin.updateSubscriptionPlan(searchName, planName, price)){
+                                            System.out.println("Not found.");
+                                            break;
+                                        } 
+                                        // *********** put this in notification **************
 
                                         System.out.println("\nNotification: Subscription plans successfully updated!\n");
-                                    } else {
-                                        System.out.println("Name not found. Try Again.");
-                                    }
-                                
+                                    
                                     break;
                                     
                                 // Viewing all Users
                                 case 3:
-                                  System.out.println("Still Working...");
+                                  System.out.println("View Plans");
+                                  admin.viewPlans();
                                     break;
                                 
                                 default:

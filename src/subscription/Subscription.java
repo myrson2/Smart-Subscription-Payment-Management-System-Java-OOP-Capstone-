@@ -5,6 +5,10 @@ public abstract class Subscription{
     private double price;
     private int durationInDays;
 
+    public Subscription(String planName, double price){
+        this(planName, price, 0);
+    }
+
     public Subscription(String planName, double price, int durationInDays){
         this.planName = planName;
         this.price = price;
