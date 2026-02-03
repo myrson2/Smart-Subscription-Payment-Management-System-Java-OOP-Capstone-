@@ -10,6 +10,15 @@ public class SubscriptionManager {
         plans.add(s);
     }
 
+    public Subscription returnSubscription(String name){
+        for (Subscription subscription : plans) {
+            if(name.equalsIgnoreCase(subscription.getPlanName())){
+                return subscription;
+            }
+        }
+        return null;
+    }
+
     public boolean findPlanName(String name){
         boolean indicator = false;
         

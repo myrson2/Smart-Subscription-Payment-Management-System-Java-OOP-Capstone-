@@ -1,11 +1,13 @@
 package Users;
 
 import java.util.ArrayList;
+import Payment.PaymentMethod;
 import subscription.*;
 import transaction.*;
 
 public class Customer extends User{
-    Subscription activeSubscription;
+    Transaction transaction;
+    private Subscription activeSubscription;
     ArrayList<Transaction> transactionHistory = new ArrayList<>();
 
     public Customer(int userId, String name, String email, String password, boolean isActive){
@@ -26,6 +28,13 @@ public class Customer extends User{
                 System.out.println(t);
             }
         }
+    }
+
+    public void subscribePlan(Subscription plan, PaymentMethod payment){
+        setActiveSubscription(plan);
+        transaction = new Transaction(plan.getPrice(), payment);
+        addTransaction(transaction);
+        setActive(true);
     }
 
     public void setActiveSubscription(Subscription subscription) {

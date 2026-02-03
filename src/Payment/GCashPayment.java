@@ -1,5 +1,4 @@
 package Payment;
-import subscription.Subscription;
 
 public class GCashPayment implements PaymentMethod{
     @Override

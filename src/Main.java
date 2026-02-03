@@ -1,290 +1,200 @@
-import java.util.Random;
 import java.util.Scanner;
-import Users.Customer;
+
+import Payment.CreditCardPayment;
+import Payment.GCashPayment;
+import Payment.PaymentMethod;
+import manager.SubscriptionManager;
 import subscription.Subscription;
-import Users.Admin;
+import Users.*;
 
 
 public class Main {
-    
+
     public static void main(String[] args) {
         try (Scanner scan = new Scanner(System.in)) {
-            Random random = new Random();
+        System.out.println("======================================================");
+        System.out.println("=== Smart Subscription & Payment Management System ===");
+        System.out.println("======================================================\n");
 
-            Customer customer;
-            Subscription subscriptions;
-            Admin admin;
-            
-            System.out.println("======================================================");
-            System.out.println("=== Smart Subscription & Payment Management System ===");
-            System.out.println("======================================================");
+        int authentication;
+        SubscriptionManager manager = new SubscriptionManager();
+        do{
+            loginOrLogout();
+            System.out.print("> ");
+            authentication = scan.nextInt();
+            scan.nextLine();
 
-            // System User Login 
-            int id;
-            String name,
-                email,
-                password;
-
-            int isContinue = 0;
-
-            do{ 
-                // User Input
-                System.out.println("Login Form: \n");
-
-                id = userIdGenerator(random);
-                System.out.printf("User ID: %d\n", id);
+            if(authentication == 1){ // login
                 
+                System.out.println("== Login Form ==");
+
                 System.out.print("Name: ");
-                name = scan.nextLine();
+                String name = scan.nextLine();
 
                 System.out.print("Email: ");
-                email = scan.nextLine();
-                
-                if(!email.contains("@")){
-                    System.out.println("Should have @");
-                    break;
-                }
+                String email = scan.nextLine();
 
                 System.out.print("Password: ");
-                password = scan.nextLine();
+                String password = scan.nextLine();
 
-                if(password.length() < 8) {
-                    System.out.println("Must contain up to 8 characters");
-                    break;
-                }
-               
-                System.out.println("");
-
-                // End System User Login
-
-                // User if Customer / Admin
-                System.out.println("============================================================");
-                System.out.println("=====       1-Customer        ====        2-Admin      =====");
-                System.out.println("============================================================\n");
-
-                int choice; // choice if admin or customer
+                System.out.println("== 1-Customer == 2-Admin ==");
                 System.out.print("> ");
-                choice = scan.nextInt();
-                scan.nextLine(); // input buffer
-
-                System.out.print("(Enter to Procede)");
+                int choice = scan.nextInt();
                 scan.nextLine();
 
-                System.out.println(" ");
-                switch (choice) {
-                    case 1:
-                        customer = new Customer(id, name, email, password, false);
+                if(choice == 2){
+                    Admin admin = new Admin(choice, name, email, password, false);
+                    admin.login();
 
-                        System.out.println("==============================================");
-                        System.out.println("Hello " + customer.getName() + "!. Welcome to Customer Dashboard.");
-                        System.out.println("Status: " + customer.isActive());
-                        System.out.println("==============================================\n");
+                    boolean isContinue = false;
 
-                        int customerSelect = 0;
-                        do{
-                            customerMenuDashboard();
-                            
-                            System.out.print("\nSelect > ");
-                            customerSelect = scan.nextInt();
-                            scan.nextLine();
+                    do{
+                        adminMenuDashboard();
 
-                            switch (customerSelect) {
-                                // Displaying User Information
-                                case 1: 
-                                    customer.displayUserInfo();
-                                    break;
-
-                                // Updating User's Profile Information
-                                case 2:
-                                    System.out.print("Name: ");
-                                    String upd_name = scan.nextLine();
-
-                                    System.out.print("Email: ");
-                                    String upd_email = scan.nextLine();
-                                    
-                                    if(!upd_email.contains("@")){
-                                        System.out.println("Should have @");
-                                        break;
-                                    }
-
-                                    System.out.print("Password: ");
-                                    String upd_password = scan.nextLine();
-
-                                    if(upd_password.length() < 8) {
-                                        System.out.println("Must contain up to 8 characters");
-                                        break;
-                                    }
-
-                                    customer.updateProfile(upd_name, upd_email, upd_password);
-                                    break;
-
-                                // Subscribing to a plan
-                                case 3:
-                                    // listOfSubscriptionPlans(admin);
-                                    // System.out.print("Enter Plan > ");
-                                    // String plan = scan.nextLine();
-                                    // if(!admin.searchName(plan)){
-                                    //     System.out.println("Error: Plan not found.");
-                                    //     break;
-                                    // }
-                                    // System.out.print("Type (monthly/yearly/student) > ");
-                                    // String type = scan.nextLine();
-                                    // selectedPLan = admin.returnSubscriptionPlan(plan, type);
-                                    // if(selectedPLan == null) {
-                                    //     System.out.println("Error: Subscription type not found.");
-                                    //     break;
-                                    // }
-                                    // System.out.println("Plan price: PHP " + selectedPLan.getPrice());
-                                    // modeOfPayment();
-                                    // System.out.print("> ");
-                                    // int modeOfP = scan.nextInt();
-                                    // scan.nextLine();
-                                    // double paidAmount = selectedPLan.getPrice();
-                                    // String paymentType = "";
-                                    // if(modeOfP == 1) {
-                                    //     paymentMethod = new GCashPayment();
-                                    //     paymentType = "GCash";
-                                    // } else if(modeOfP == 2) {
-                                    //     paymentMethod = new CreditCardPayment();
-                                    //     paymentType = "Credit Card";
-                                    // } else {
-                                    //     System.out.println("Invalid payment option.");
-                                    //     break;
-                                    // }
-                                    // paymentMethod.processPayment(paidAmount);
-                                    // paymentMethod.generateReceipt();
-                                    // // Record transaction
-                                    // int transactionId = new Random().nextInt(1000000);
-                                    // Transaction transaction = new Transaction(transactionId, paidAmount, java.time.LocalDateTime.now(), paymentType, selectedPLan.getPlanName());
-                                    // customer.addTransaction(transaction);
-                                    // customer.setActiveSubscription(selectedPLan);
-                                    // // Notification
-                                    // notification.NotificationService.sendNotification(customer.getEmail(), "Subscription to '" + selectedPLan.getPlanName() + "' successful. Amount: PHP " + paidAmount);
-                                    // System.out.println("Subscription successful!");
-                                    break;
-
-                                // View Transaction History
-                                case 4:
-                                    customer.viewTransactionHistory();
-                                    break;
-
-                                // Cancel Subscription (simple simulation)
-                                case 5:
-                                    customer.setActiveSubscription(null);
-                                    System.out.println("Subscription cancelled.");
-                                    notification.NotificationService.sendNotification(customer.getEmail(), "Your subscription has been cancelled.");
-                                    break;
-
-                                default:
-                                    break;
-                            }
-                        } while(customerSelect != 0);
-                        
-                        break;
-                    case 2:
-                        admin = new Admin(id, name, email, password, true);
-                        
-                        // Admin Dashboard 
-                        int adminSelect = 0;
-                        do{
-                            System.out.println("=======================================================");
-                            System.out.println("== Hello, Administrator! Welcome to Admin Dashboard. ==");
-                            System.out.println("=======================================================");
-
-                            adminMenuDashboard();
-                            
-                            System.out.print("\nEnter your choice: ");
-                            adminSelect = scan.nextInt();
-                            scan.nextLine();
-
-                            System.out.println(" ");
-
-                            String planName;
-                            double price;
-
-                            switch (adminSelect) {
-                                // Creating a Subscription Plan
-                                case 1:
-                                    System.out.println("==============================================");
-                                    System.out.println("==        Creating a Subscription Plan      ==");
-                                    System.out.println("==============================================");
-
-                                    System.out.print("Enter a Plan Name: ");
-                                    planName = scan.nextLine();
-                                    System.out.print("Enter Base Price: ");
-                                    price = scan.nextDouble();
-                                    scan.nextLine();
-
-                                    admin.createSubscriptionPlan(planName, price);
-
-                                    System.out.println("\nNotification: Subscription plans generated successfully!\n");
-                                    break;
-                                
-                                // Updating the Plan Subscription
-                                case 2:
-                                    System.out.println("==============================================");
-                                    System.out.println("==        Update a Subscription Plan        ==");
-                                    System.out.println("==============================================");
-
-                                    System.out.println("Search Name: ");
-                                    String searchName = scan.nextLine();
-
-                                    // *********** put this in notification **************
-                                    if(!admin.findName(searchName)) {
-                                        System.out.println("Didnt found! Try inputting again or adding plans.");
-                                        break;
-                                    } // *********** put this in notification **************
-
-                                        System.out.print("Update Name: ");
-                                        planName = scan.nextLine(); 
-
-                                        System.out.print("Update Price: ");
-                                        price = scan.nextDouble();
-                                        scan.nextLine();
-                                        
-                                        // *********** put this in notification **************
-                                        if(!admin.updateSubscriptionPlan(searchName, planName, price)){
-                                            System.out.println("Not found.");
-                                            break;
-                                        } 
-                                        // *********** put this in notification **************
-
-                                        System.out.println("\nNotification: Subscription plans successfully updated!\n");
-                                    
-                                    break;
-                                    
-                                // Viewing all Users
-                                case 3:
-                                  System.out.println("View Plans");
-                                  admin.viewPlans();
-                                    break;
-                                
-                                default:
-                                    break;
-                            }
-
-                        } while (adminSelect != 0);
-                        break;
-                    default:
-                        break;
-                }
-
-                // Continuing Validation 
-                boolean isTrue;
-                do{
-                    System.out.print("Do you want to continue? (1 - Yes or 2 - No) > ");
-                    isContinue = scan.nextInt();
+                    System.out.print("> ");
+                    int admin_choice = scan.nextInt();
                     scan.nextLine();
 
-                    isTrue = isContinue > 2 || isContinue <= 0;
-                    if (isTrue) {
-                        System.out.println("1 and 2 only. Try Again.");
+                    switch (admin_choice) {
+                        case 1:
+                            System.out.println("==============================================");
+                            System.out.println("==        Creating a Subscription Plan      ==");
+                            System.out.println("==============================================");
+
+                            System.out.print("Enter a Plan Name: ");
+                            String planName = scan.nextLine();
+                            System.out.print("Enter Base Price: ");
+                            double price = scan.nextDouble();
+                            scan.nextLine();
+
+                            admin.createSubscriptionPlan(planName, price);
+
+                            System.out.println("\nNotification: Subscription plans generated successfully!\n");
+                            break;
+                        case 2:
+                            System.out.println("==============================================");
+                            System.out.println("==        Update a Subscription Plan        ==");
+                            System.out.println("==============================================");
+
+                            System.out.println("Search Name: ");
+                            String searchName = scan.nextLine();
+
+                            if(admin.findName(searchName)){ 
+                                System.out.println("Update Name: ");
+                                planName = scan.nextLine();
+                                System.out.println("Update Price: ");
+                                price = scan.nextDouble();
+                                scan.nextLine();
+
+                                admin.updateSubscriptionPlan(searchName, planName, price);
+
+                                System.out.println("\nNotification: Subscription plans successfully updated!\n");
+                            } else {
+                                System.out.println("Name not found. Try Again.");
+                            }
+                            break;
+                        case 3:
+                            System.out.println("Still working....");
+                            admin.viewPlans(); // testing
+                            break;
+                    
+                        default:
+                            break;
                     }
-                }while(isTrue);
-                
-            } while (isContinue != 2);
-        }    
-    
+
+                        System.out.println("Do you want to Continue? (Y/N): ");
+                        String answer = scan.nextLine();
+                        
+                        isContinue = answer.equalsIgnoreCase("Y");
+                    }while(isContinue);
+                    
+                } else if (choice == 1){
+                    Customer customer = new Customer(choice, name, email, password, false);
+                    customer.login();
+
+                    boolean isContinue = false;
+
+                    do{
+                        customerMenuDashboard();
+
+                        System.out.print("> ");
+                        int customer_choice = scan.nextInt();
+                        scan.nextLine();
+
+                        switch (customer_choice) {
+                            case 1:
+                                System.out.println("== Subscription Plans ==");
+                                manager.viewSubsPlans();
+
+                                System.out.println("Enter a Plan Name: ");
+                                String planName = scan.nextLine();
+                                System.out.println("Yearly, Monthly, Student");
+                                String type = scan.nextLine();
+
+                                switch () {
+                                    case "Yearly":
+                                        Subscription subs = manager.returnSubscription(planName);
+                            
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+
+                                modeOfPayment();
+                                System.out.println("Payment Method: ");
+                                String paymentMethod = scan.nextLine().toLowerCase();
+
+                                switch (paymentMethod) {
+                                    case "gcash":
+                                        PaymentMethod gcashPayment = new GCashPayment();
+                                        gcashPayment.processPayment(subs.getPrice());
+                                        customer.subscribePlan(subs, gcashPayment);
+                                        gcashPayment.generateReceipt();
+                                        break;
+                                    
+                                    case "credit card":
+                                        PaymentMethod creditCardPayment = new CreditCardPayment();
+                                        creditCardPayment.processPayment(subs.getPrice());
+                                        customer.subscribePlan(subs, creditCardPayment);
+                                        creditCardPayment.generateReceipt();
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                
+                                break;
+                            case 2:
+                                
+                                break;
+                            case 3:
+                                customer.displayUserInfo();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        System.out.println("Do you want to Continue? (Y/N): ");
+                        String answer = scan.nextLine();
+                        
+                        isContinue = answer.equalsIgnoreCase("Y");
+                    } while (isContinue);
+                } else {
+                    System.out.println("1 or 2 only");
+                }
+
+            } else if (authentication == 0){
+
+            }
+        } while (authentication != 0);
+        }
+    }
+        
+    static void loginOrLogout(){
+        System.out.println("======================================================");
+        System.out.println("==      1 - Login         ====        0 - Logout    ==");
+        System.out.println("======================================================\n");
     }
 
     // function for admin dashboard
@@ -295,26 +205,18 @@ public class Main {
         System.out.println("3 - View All Users");
         System.out.println("0 - Log out");
     }
-
-    static int userIdGenerator(Random random){
-        int num = random.nextInt(99999);
-        
-        return num;
-    }
     // function for customer dashboard
     static void customerMenuDashboard(){
         System.out.println("Options: ");        
-        System.out.println("1. View Profile");
-        System.out.println("2. Update Profile");
-        System.out.println("3. Subscribe a Plan");
-        System.out.println("4. Transaction History");
-        System.out.println("5. Cancel Subscription");
+        System.out.println("1. Subscribe a Plan");
+        System.out.println("2. Transaction History");
+        System.out.println("3. Cancel Subscription");
         System.out.println("0. Logout");
     }
 
     static void modeOfPayment(){
         System.out.println("Options: ");        
-        System.out.println("1. Gcash");
-        System.out.println("2. Credit Card");
+        System.out.println("-> Gcash");
+        System.out.println("-> Credit Card");
     }
 }
